@@ -1,0 +1,4 @@
+bcrypt==5.0.0
+PyMySQL==1.2.0
+SQLAlchemy==2.0.50
+python-dotenv==1.2.2
