@@ -12,7 +12,7 @@ El jugador se conecta y espera a un rival.
 
 ## Paso 2
 
-Una vez emparejado el jugador, se le entregan a ambos una matriz de 5x5 y una mano de 3 cartas. Ejemplo:
+Una vez emparejado el jugador, se le entregan a ambos una matriz aletorio de 5x5 y una mano de 3 cartas. Ejemplo:
 
 | X | - | - | - | X |
 | :--- | :--- | :--- | :--- | :--- |
@@ -47,6 +47,8 @@ El jugador no solo puede poner cartas en celdas libres, sino que también puede 
 * La carta a poner tenga entre sus direcciones la dirección a la que se prentende empujar (por ejemplo, | ← ↑ → | puede empujar a la izquierda, a la derecha y arriba)
 * Todas las cartas que se encuentren en la trayectoria del empuje __no__ pueden tener la dirección opuesta al empuje (por ejemplo, si se quiere empujar hacia arriba pero en la columna hay una carta con dirección hacia abajo, no se efectuará el movimiento)
 * La pila de la columna o fila de la trayectoría no puede estar saturada (es decir, mientras la celda de descarte al final de la columna o fila esté libre, los movimientos serán válidos)
+
+Al final del movimiento, se repone una carta nueva a la mano.
 
 ## Paso 4
 
