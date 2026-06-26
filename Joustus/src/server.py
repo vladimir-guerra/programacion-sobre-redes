@@ -137,7 +137,7 @@ class Server:
                         p[idx] += 1
         if p["Jugador 1"] == p["Jugador 2"]:
             return "EMP"
-        return max(p, key=p.get)
+        return max(p, key=lambda k: p.get(k, 0))
 
     def _toggle_turns(
         self,
@@ -159,24 +159,25 @@ class Server:
                 )
                 turn = False
             data = {"matrix": matrix, "turn": turn, "message": msg}
-            if type(turn_hand) == tuple[Card, Card]:
-                card, precard = turn_hand
-                res = TurnRes(newcard=card, precard=precard, **data)
-            else:
-                hand, rhand = turn_hand
+            pos1, pos2 = turn_hand
+            if type(pos1) == Card and type(pos2) == Card:
+                res = TurnRes(newcard=pos1, precard=pos2, **data)
+            elif type(pos1) == list[Card] and type(pos2) == list[Card]:
                 if p == ap:
-                    hand, rhand = rhand, hand
-                res = Hand(hand=hand, rhand=rhand, **data)
+                    pos1, pos2 = pos2, pos1
+                res = Hand(hand=pos1, rhand=pos2, **data)
+            else:
+                return
             p.send(res.to_dict())
 
     def _handle_game(self, p1: Client, p2: Client):
         try:
-            hands = [[Card.create(p.name) for i in range(3)] for p in (p1, p2)]
+            hands = ([Card.create(p1.name) for _ in range(3)], [Card.create(p2.name) for _ in range(3)])
             is_playing: bool = True
             matrix: Matrix = self._create_matrix()
 
             ap, wp = p1, p2
-            self._toggle_turns(ap, wp, matrix, tuple(hands))
+            self._toggle_turns(ap, wp, matrix, hands)
             while is_playing:
                 data = ap.receive()
                 if not data:

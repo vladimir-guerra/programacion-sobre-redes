@@ -77,7 +77,7 @@ class TurnReq:
         return cls(**kwargs)
 
 
-@dataclass
+@dataclass(frozen=True, kw_only=True)
 class MixIn:
     matrix: Matrix
     message: str
@@ -97,7 +97,7 @@ class MixIn:
         ]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class Hand(MixIn):
     hand: list[Card]
     rhand: list[Card]
@@ -119,7 +119,7 @@ class Hand(MixIn):
         return cls(**kwargs)
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, kw_only=True)
 class TurnRes(MixIn):
     newcard: Card
     precard: Card
